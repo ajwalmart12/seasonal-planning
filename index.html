@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Seasonal &amp; Event Demand Planning — Demo</title>
+<title>Scenario Planning &amp; Inventory Commitment — Demo</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
@@ -47,14 +47,17 @@ footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:
 </style>
 </head>
 <body>
-<div class="demo-banner"><span>⚠ DEMO DATA — Illustrative numbers only.</span><span class="rs">Production: $292M+ forecast error reduction · Major retail events · Food &amp; Grocery Category</span></div>
+<div style="background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:8px 32px;font-size:11px;color:#475569;text-align:center;">
+  <strong>Independent portfolio case study.</strong> All data, scenarios, product identifiers and results shown here are synthetic. This project does not reproduce any employer's data, systems or confidential business processes.
+</div>
+<div class="demo-banner"><span>⚠ DEMO DATA — Illustrative numbers only.</span><span class="rs">Production: nine-figure forecast-error reduction opportunity identified</span></div>
 <header class="topbar">
-  <div><div class="brand">Seasonal &amp; Event Demand Planning</div><div class="sub">Event Risk Framework · Scenario Modeling · Pre-event Inventory Positioning</div></div>
+  <div><div class="brand">Scenario Planning &amp; Inventory Commitment</div><div class="sub">Evaluating uncertain demand scenarios and staging inventory commitments as signal confidence improves.</div></div>
   <div class="links"><a href="../whitepaper.html">📄 Whitepaper →</a></div>
 </header>
 <nav class="tab-nav" id="tabNav">
   <button class="tab-btn active" data-tab="scenarios">Scenario Dashboard</button>
-  <button class="tab-btn" data-tab="calendar">Event Calendar</button>
+  <button class="tab-btn" data-tab="calendar">Planning Calendar</button>
   <button class="tab-btn" data-tab="lift">Lift Analysis</button>
   <button class="tab-btn" data-tab="risk">Risk Flags</button>
 </nav>
@@ -62,8 +65,26 @@ footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:
 
 <!-- Scenarios -->
 <div id="tab-scenarios" class="tab-panel active">
+  <div style="background:#f8f9ff;border-left:3px solid #6366f1;border-radius:8px;padding:16px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6366f1;margin-bottom:4px;">Decision</div>
+      <div style="font-size:13px;color:#0f172a;">When and how much inventory to commit given uncertain future demand?</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6366f1;margin-bottom:4px;">Recommendation</div>
+      <div style="font-size:13px;color:#0f172a;">Stage commitments in three tranches aligned to signal confidence; preserve flexibility early, commit core capacity at moderate confidence, release remaining at high confidence.</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6366f1;margin-bottom:4px;">Evidence</div>
+      <div style="font-size:13px;color:#0f172a;">Base case probability rising as leading indicators converge · Staged commitment reduces both excess-inventory and availability risk · Historical patterns suggest multi-wave demand shape</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6366f1;margin-bottom:4px;">Primary Risk</div>
+      <div style="font-size:13px;color:#0f172a;">Probability estimates are judgmental and may not capture structural demand shifts or supply disruptions outside the model's training window.</div>
+    </div>
+  </div>
   <div class="kpi-row">
-    <div class="kpi bl"><div class="lbl">Next Major Event</div><div class="val">Wk 18</div><div class="delta" style="color:var(--muted)">6 weeks away</div></div>
+    <div class="kpi bl"><div class="lbl">Next Planning Milestone</div><div class="val">Wk 18</div><div class="delta" style="color:var(--muted)">6 weeks away</div></div>
     <div class="kpi or"><div class="lbl">Active Scenarios</div><div class="val">3</div><div class="delta" style="color:var(--muted)">Bear / Base / Bull</div></div>
     <div class="kpi gd"><div class="lbl">Base Case Prob</div><div class="val">61%</div><div class="delta" style="color:var(--good)">Updated this week</div></div>
     <div class="kpi or"><div class="lbl">Red Flags</div><div class="val">8</div><div class="delta" style="color:var(--crit)">Items need action</div></div>
@@ -75,20 +96,39 @@ footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:
       <div class="sc-label">🐻 Bear Case</div>
       <div class="sc-val">+11.2%</div>
       <div class="sc-units">Expected event lift over baseline</div>
-      <div class="sc-prob" style="background:#fee2e2;color:var(--crit)">Probability: 21%</div>
+      <div class="sc-prob" style="background:#fee2e2;color:var(--crit)">Low confidence (≈20%)</div>
     </div>
     <div class="scenario-card base">
       <div class="sc-label">📊 Base Case</div>
       <div class="sc-val">+18.4%</div>
       <div class="sc-units">Expected event lift over baseline</div>
-      <div class="sc-prob" style="background:#dbeafe;color:var(--ind)">Probability: 61%</div>
+      <div class="sc-prob" style="background:#dbeafe;color:var(--ind)">Moderate-High confidence (≈60%)</div>
     </div>
     <div class="scenario-card bull">
       <div class="sc-label">🐂 Bull Case</div>
       <div class="sc-val">+26.8%</div>
       <div class="sc-units">Expected event lift over baseline</div>
-      <div class="sc-prob" style="background:#dcfce7;color:#166534">Probability: 18%</div>
+      <div class="sc-prob" style="background:#dcfce7;color:#166534">Low confidence (≈20%)</div>
     </div>
+  </div>
+
+  <div style="background:#fcfcfb;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:700;margin-bottom:12px;">Commitment Decision Framework</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="border-bottom:1px solid #e2e8f0;">
+          <th style="text-align:left;padding:6px 8px;font-size:10px;color:#898781;text-transform:uppercase;letter-spacing:.04em;">Stage</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;color:#898781;text-transform:uppercase;letter-spacing:.04em;">Signal Confidence</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;color:#898781;text-transform:uppercase;letter-spacing:.04em;">Recommended Action</th>
+          <th style="text-align:left;padding:6px 8px;font-size:10px;color:#898781;text-transform:uppercase;letter-spacing:.04em;">Trade-off</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px 8px;color:#52514e;">Early (6–8 wks out)</td><td style="padding:6px 8px;color:#52514e;">Low</td><td style="padding:6px 8px;font-weight:600;">Preserve flexibility — commit minimum floor only</td><td style="padding:6px 8px;color:#898781;">Lower cost; availability risk if demand surges</td></tr>
+        <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px 8px;color:#52514e;">Intermediate (3–5 wks)</td><td style="padding:6px 8px;color:#52514e;">Moderate</td><td style="padding:6px 8px;font-weight:600;">Commit core capacity based on base-case scenario</td><td style="padding:6px 8px;color:#898781;">Balanced; some excess if bear case materializes</td></tr>
+        <tr><td style="padding:6px 8px;color:#52514e;">Final (1–2 wks out)</td><td style="padding:6px 8px;color:#52514e;">High</td><td style="padding:6px 8px;font-weight:600;">Release remaining optionality; position for bull upside</td><td style="padding:6px 8px;color:#898781;">Higher cost; minimizes stockout risk</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="chart-grid cols2">
@@ -115,7 +155,7 @@ footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:
   <div class="chart-grid cols2">
     <div class="card full">
       <div class="ttl">Annual Event Calendar — Demand Lift Index by Week</div>
-      <div class="sub2">Indexed demand lift relative to baseline. Identifies high-risk planning windows. Holiday peaks require 6–8 week pre-positioning.</div>
+      <div class="sub2">Indexed demand lift relative to baseline. Identifies high-risk planning windows. High-demand cycles require 6–8 week pre-positioning.</div>
       <canvas id="calChart" height="80"></canvas>
     </div>
     <div class="card">
@@ -165,6 +205,16 @@ footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:
 </div>
 
 </main>
+<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin:20px;">
+  <strong style="font-size:12px;">Assumptions &amp; Limitations</strong>
+  <ul style="margin-top:8px;font-size:12px;color:#52514e;padding-left:18px;">
+    <li>All scenario data is synthetically generated; no employer-specific event data is used.</li>
+    <li>Probability estimates are illustrative; real systems use leading indicators and Bayesian updating.</li>
+    <li>Demand shape profiles are constructed from publicly available seasonal patterns.</li>
+    <li>Commitment costs and flexibility trade-offs are simplified for demonstration.</li>
+    <li>Model does not account for supply-side constraints or competitor actions.</li>
+  </ul>
+</div>
 <footer>
   <span>⚠ Demo data</span>
   <a href="../whitepaper.html" target="_blank">📄 Methodology →</a>
@@ -177,7 +227,7 @@ const base={responsive:true,maintainAspectRatio:true,plugins:{legend:{display:fa
 // Scenario probability evolution
 const scWks=['6 Wks Out','5 Wks Out','4 Wks Out','3 Wks Out','2 Wks Out','1 Wk Out'];
 new Chart(document.getElementById('scProbChart'),{type:'line',data:{labels:scWks,datasets:[
-  {label:'Base Case %',data:[42,48,52,57,60,61],borderColor:C.blue,backgroundColor:C.blue+'22',fill:true,borderWidth:2,pointRadius:4,tension:.3},
+  {label:'Base Case %',data:[40,45,50,55,58,60],borderColor:C.blue,backgroundColor:C.blue+'22',fill:true,borderWidth:2,pointRadius:4,tension:.3},
   {label:'Bull Case %', data:[30,26,24,22,20,18],borderColor:C.good,borderWidth:2,pointRadius:4,tension:.3},
   {label:'Bear Case %', data:[28,26,24,21,20,21],borderColor:C.crit,borderWidth:2,pointRadius:4,tension:.3,borderDash:[4,3]},
 ]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{font:{size:11},color:C.text,boxWidth:8,padding:8}}},scales:{x:base.scales.x,y:{...base.scales.y,min:0,max:80,title:{display:true,text:'Probability %',font:{size:11},color:C.muted}}}}});
@@ -197,9 +247,9 @@ new Chart(document.getElementById('invStaging'),{type:'bar',data:{labels:['Floor
 const calWks=Array.from({length:52},(_,i)=>`W${i+1}`);
 const calData=calWks.map((_,i)=>{
   const w=i+1;
-  if(w===24||w===25)return 1.42; // Summer event
-  if(w===47||w===48)return 1.68; // Holiday peak
-  if(w===49||w===50)return 1.82; // Black Friday / Cyber
+  if(w===24||w===25)return 1.42; // Campaign B
+  if(w===47||w===48)return 1.68; // Seasonal Peak
+  if(w===49||w===50)return 1.82; // Launch Window
   if(w===1||w===52)return 1.22;  // New Year
   if(w===17||w===18)return 1.28; // Spring event
   return 1.0+Math.sin(w/8)*0.04+Math.random()*0.03;
@@ -207,7 +257,7 @@ const calData=calWks.map((_,i)=>{
 new Chart(document.getElementById('calChart'),{type:'bar',data:{labels:calWks,datasets:[{data:calData,backgroundColor:calData.map(v=>v>1.6?C.crit+'cc':v>1.3?C.warn+'cc':v>1.1?C.blue+'cc':C.grid),borderRadius:1,borderSkipped:false}]},options:{...base,scales:{x:{...base.scales.x,ticks:{maxTicksLimit:13,color:C.muted,font:{size:10}}},y:{...base.scales.y,title:{display:true,text:'Demand Index',font:{size:11},color:C.muted}}}}});
 
 // Lift by event type
-new Chart(document.getElementById('liftByEvent'),{type:'bar',data:{labels:['Black Friday','Holiday Peak','Summer Event','Spring Event','Back-to-School'],datasets:[{data:[48.2,36.8,28.4,19.2,14.8],backgroundColor:[C.crit+'cc',C.orange+'cc',C.blue+'cc',C.aqua+'cc',C.yellow+'cc'],borderRadius:4,borderSkipped:false}]},options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,title:{display:true,text:'Median Lift % vs. Baseline',font:{size:11},color:C.muted}},y:base.scales.y}}});
+new Chart(document.getElementById('liftByEvent'),{type:'bar',data:{labels:['Launch Wave A','Seasonal Peak','Campaign B','Spring Event','Product Refresh'],datasets:[{data:[48.2,36.8,28.4,19.2,14.8],backgroundColor:[C.crit+'cc',C.orange+'cc',C.blue+'cc',C.aqua+'cc',C.yellow+'cc'],borderRadius:4,borderSkipped:false}]},options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,title:{display:true,text:'Median Lift % vs. Baseline',font:{size:11},color:C.muted}},y:base.scales.y}}});
 
 // Category sensitivity
 new Chart(document.getElementById('catSens'),{type:'bar',data:{labels:['Beverages','Snacks','Dairy','Frozen','Fresh','Grocery','Deli'],datasets:[{data:[42.1,38.4,31.2,28.8,22.4,18.6,14.2],backgroundColor:C.blue+'cc',borderRadius:3,borderSkipped:false}]},options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,title:{display:true,text:'Average Event Lift %',font:{size:11},color:C.muted}},y:base.scales.y}}});
