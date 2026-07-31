@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Seasonal &amp; Event Demand Planning — Demo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{--s0:#f9f9f7;--s1:#fcfcfb;--ink:#0b0b0b;--sec:#52514e;--muted:#898781;--grid:#e1e0d9;--border:rgba(11,11,11,.10);--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--yellow:#eda100;--magenta:#e87ba4;--good:#0ca30c;--warn:#fab219;--crit:#d03b3b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;background:var(--s0);color:var(--ink);}
+.demo-banner{background:#fffbeb;border-bottom:2px solid #f59e0b;padding:8px 20px;font-size:12px;font-weight:600;color:#92400e;display:flex;align-items:center;}
+.demo-banner .rs{margin-left:auto;font-weight:400;font-size:11px;color:#78350f;}
+.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;}
+.brand{font-size:15px;font-weight:700;} .sub{font-size:11px;color:var(--sec);}
+.links{margin-left:auto;display:flex;gap:12px;} .links a{color:var(--blue);font-size:12px;font-weight:600;text-decoration:none;} .links a:hover{text-decoration:underline;}
+.tab-nav{background:var(--s1);border-bottom:1px solid var(--grid);padding:0 20px;display:flex;gap:2px;}
+.tab-btn{padding:10px 16px;border:none;background:none;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
+.tab-btn:hover{color:var(--sec);} .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
+main{padding:20px;max-width:1300px;margin:0 auto;}
+.tab-panel{display:none;} .tab-panel.active{display:block;}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.kpi .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.kpi .val{font-size:22px;font-weight:700;margin:4px 0 2px;}
+.kpi .delta{font-size:11px;font-weight:600;}
+.kpi.bl{border-left:3px solid var(--blue);} .kpi.or{border-left:3px solid var(--orange);} .kpi.gd{border-left:3px solid var(--good);}
+.chart-grid{display:grid;gap:16px;} .cols2{grid-template-columns:1fr 1fr;}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:16px;}
+.card .ttl{font-size:12px;font-weight:700;margin-bottom:3px;} .card .sub2{font-size:11px;color:var(--muted);margin-bottom:12px;}
+.full{grid-column:1/-1;} canvas{display:block;}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+.scenario-card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;}
+.scenario-card .sc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.scenario-card .sc-val{font-size:28px;font-weight:800;margin-bottom:4px;}
+.scenario-card .sc-units{font-size:11px;color:var(--muted);}
+.scenario-card .sc-prob{font-size:12px;font-weight:600;margin-top:8px;padding:4px 10px;border-radius:999px;display:inline-block;}
+.bear{border-top:3px solid var(--crit);} .bear .sc-val{color:var(--crit);}
+.base{border-top:3px solid var(--blue);} .base .sc-val{color:var(--blue);}
+.bull{border-top:3px solid var(--good);} .bull .sc-val{color:var(--good);}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{padding:7px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--grid);}
+td{padding:7px 10px;border-bottom:1px solid var(--grid);color:var(--sec);}
+tr:last-child td{border-bottom:none;} tr:hover td{background:#f4f3f0;}
+footer{margin-top:32px;padding:16px 20px;border-top:1px solid var(--grid);font-size:11px;color:var(--muted);display:flex;gap:16px;}
+footer a{color:var(--blue);text-decoration:none;} footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="demo-banner"><span>⚠ DEMO DATA — Illustrative numbers only.</span><span class="rs">Production: $292M+ forecast error reduction · Major retail events · Food &amp; Grocery SBU</span></div>
+<header class="topbar">
+  <div><div class="brand">Seasonal &amp; Event Demand Planning</div><div class="sub">Event Risk Framework · Scenario Modeling · Pre-event Inventory Positioning</div></div>
+  <div class="links"><a href="../whitepaper.html">📄 Whitepaper →</a></div>
+</header>
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="scenarios">Scenario Dashboard</button>
+  <button class="tab-btn" data-tab="calendar">Event Calendar</button>
+  <button class="tab-btn" data-tab="lift">Lift Analysis</button>
+  <button class="tab-btn" data-tab="risk">Risk Flags</button>
+</nav>
+<main>
+
+<!-- Scenarios -->
+<div id="tab-scenarios" class="tab-panel active">
+  <div class="kpi-row">
+    <div class="kpi bl"><div class="lbl">Next Major Event</div><div class="val">Wk 18</div><div class="delta" style="color:var(--muted)">6 weeks away</div></div>
+    <div class="kpi or"><div class="lbl">Active Scenarios</div><div class="val">3</div><div class="delta" style="color:var(--muted)">Bear / Base / Bull</div></div>
+    <div class="kpi gd"><div class="lbl">Base Case Prob</div><div class="val">61%</div><div class="delta" style="color:var(--good)">Updated this week</div></div>
+    <div class="kpi or"><div class="lbl">Red Flags</div><div class="val">8</div><div class="delta" style="color:var(--crit)">Items need action</div></div>
+    <div class="kpi gd"><div class="lbl">Items Positioned</div><div class="val">1,840</div><div class="delta" style="color:var(--good)">Pre-committed</div></div>
+  </div>
+
+  <div class="scenario-grid">
+    <div class="scenario-card bear">
+      <div class="sc-label">🐻 Bear Case</div>
+      <div class="sc-val">+11.2%</div>
+      <div class="sc-units">Expected event lift over baseline</div>
+      <div class="sc-prob" style="background:#fee2e2;color:var(--crit)">Probability: 21%</div>
+    </div>
+    <div class="scenario-card base">
+      <div class="sc-label">📊 Base Case</div>
+      <div class="sc-val">+18.4%</div>
+      <div class="sc-units">Expected event lift over baseline</div>
+      <div class="sc-prob" style="background:#dbeafe;color:var(--blue)">Probability: 61%</div>
+    </div>
+    <div class="scenario-card bull">
+      <div class="sc-label">🐂 Bull Case</div>
+      <div class="sc-val">+26.8%</div>
+      <div class="sc-units">Expected event lift over baseline</div>
+      <div class="sc-prob" style="background:#dcfce7;color:#166534">Probability: 18%</div>
+    </div>
+  </div>
+
+  <div class="chart-grid cols2">
+    <div class="card full">
+      <div class="ttl">Scenario Probability Evolution — Last 6 Weeks (as event approaches)</div>
+      <div class="sub2">Probability distribution shifts as pre-event leading indicators come in. Base case rising = healthy signal convergence.</div>
+      <canvas id="scProbChart" height="75"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Demand Shape — Typical Event Profile (Indexed to Baseline)</div>
+      <div class="sub2">Pre-event pull · Peak-day lift · Post-event correction · Normalization</div>
+      <canvas id="demandShape" height="240"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Inventory Commitment Staging — By Confidence Level</div>
+      <div class="sub2">Staged inventory optionality aligned to scenario probability thresholds</div>
+      <canvas id="invStaging" height="240"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Calendar -->
+<div id="tab-calendar" class="tab-panel">
+  <div class="chart-grid cols2">
+    <div class="card full">
+      <div class="ttl">Annual Event Calendar — Demand Lift Index by Week</div>
+      <div class="sub2">Indexed demand lift relative to baseline. Identifies high-risk planning windows. Holiday peaks require 6–8 week pre-positioning.</div>
+      <canvas id="calChart" height="80"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Historical Event Lift — By Event Type (%)</div>
+      <div class="sub2">Box plot range: min / 25th / median / 75th / max across prior years</div>
+      <canvas id="liftByEvent" height="240"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Category Sensitivity to Events — Lift vs. Baseline (%)</div>
+      <div class="sub2">Which categories see the biggest demand swings during events</div>
+      <canvas id="catSens" height="240"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Lift Analysis -->
+<div id="tab-lift" class="tab-panel">
+  <div class="chart-grid cols2">
+    <div class="card full">
+      <div class="ttl">Predicted vs. Actual Lift — Last 8 Events (%)</div>
+      <div class="sub2">Forecast model accuracy on event lift prediction. Closer to diagonal = better. Target: within ±5pp of actual.</div>
+      <canvas id="liftAccChart" height="85"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Multi-Wave Demand Shape — Event Wk −2 to +3</div>
+      <div class="sub2">Pre-event pull, peak-day, correction, normalization. Base case vs. actuals.</div>
+      <canvas id="waveChart" height="240"></canvas>
+    </div>
+    <div class="card">
+      <div class="ttl">Lift Attribution — By Driver (%)</div>
+      <div class="sub2">How much of the event lift is driven by price, display, category visibility, vs. baseline shift</div>
+      <canvas id="liftAttr" height="240"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Risk Flags -->
+<div id="tab-risk" class="tab-panel">
+  <div class="card">
+    <div class="ttl">Pre-Event Risk Flags — Items Requiring Action Before Wk 18</div>
+    <div class="sub2">Tiered escalation: 🔴 Critical (exec alert) · 🟡 Warning (cross-functional review) · 🟢 Monitor (planner action)</div>
+    <table>
+      <thead><tr><th>SKU</th><th>Description</th><th>Risk Tier</th><th>Bear Case Gap</th><th>Base Case Gap</th><th>Lead Time</th><th>Action</th></tr></thead>
+      <tbody id="riskTable"></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+<footer>
+  <span>⚠ Demo data</span>
+  <a href="../whitepaper.html" target="_blank">📄 Methodology →</a>
+  <span style="margin-left:auto">Astha Jain · <a href="https://linkedin.com/in/ajwalmart12" target="_blank">LinkedIn</a></span>
+</footer>
+<script>
+const C={blue:'#2a78d6',orange:'#eb6834',aqua:'#1baf7a',yellow:'#eda100',magenta:'#e87ba4',good:'#0ca30c',warn:'#fab219',crit:'#d03b3b',grid:'#e1e0d9',muted:'#898781',text:'#52514e'};
+const base={responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:C.grid,borderWidth:1,titleColor:'#0b0b0b',bodyColor:C.text,padding:10,boxPadding:4}},scales:{x:{grid:{color:C.grid,lineWidth:.5},ticks:{color:C.muted,font:{size:11}}},y:{grid:{color:C.grid,lineWidth:.5},ticks:{color:C.muted,font:{size:11}},border:{dash:[3,3]}}}};
+
+// Scenario probability evolution
+const scWks=['6 Wks Out','5 Wks Out','4 Wks Out','3 Wks Out','2 Wks Out','1 Wk Out'];
+new Chart(document.getElementById('scProbChart'),{type:'line',data:{labels:scWks,datasets:[
+  {label:'Base Case %',data:[42,48,52,57,60,61],borderColor:C.blue,backgroundColor:C.blue+'22',fill:true,borderWidth:2,pointRadius:4,tension:.3},
+  {label:'Bull Case %', data:[30,26,24,22,20,18],borderColor:C.good,borderWidth:2,pointRadius:4,tension:.3},
+  {label:'Bear Case %', data:[28,26,24,21,20,21],borderColor:C.crit,borderWidth:2,pointRadius:4,tension:.3,borderDash:[4,3]},
+]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{font:{size:11},color:C.text,boxWidth:8,padding:8}}},scales:{x:base.scales.x,y:{...base.scales.y,min:0,max:80,title:{display:true,text:'Probability %',font:{size:11},color:C.muted}}}}});
+
+// Demand shape
+const relWks=['−3','−2','−1','Peak','+1','+2','+3'];
+new Chart(document.getElementById('demandShape'),{type:'line',data:{labels:relWks,datasets:[
+  {label:'Base Case',data:[1.04,1.09,1.14,1.184,1.06,0.98,1.01],borderColor:C.blue,backgroundColor:C.blue+'22',fill:true,borderWidth:2,pointRadius:4,tension:.3},
+  {label:'Bear Case',data:[1.02,1.05,1.09,1.112,1.04,0.97,1.00],borderColor:C.crit,borderWidth:1.5,pointRadius:3,tension:.3,borderDash:[4,3]},
+  {label:'Bull Case',data:[1.06,1.13,1.19,1.268,1.08,0.99,1.02],borderColor:C.good,borderWidth:1.5,pointRadius:3,tension:.3,borderDash:[2,4]},
+]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{font:{size:11},color:C.text,boxWidth:8,padding:8}},annotation:{annotations:{base:{type:'line',scaleID:'y',value:1,borderColor:C.muted,borderWidth:1,borderDash:[3,3]}}}},scales:{x:base.scales.x,y:{...base.scales.y,title:{display:true,text:'Demand Index (1.0 = baseline)',font:{size:11},color:C.muted}}}}});
+
+// Inventory staging
+new Chart(document.getElementById('invStaging'),{type:'bar',data:{labels:['Floor\n(Bear 80%+)','Committed\n(Base 50%+)','Optionality\n(Bull 20%+)'],datasets:[{data:[1840,480,210],backgroundColor:[C.blue+'cc',C.aqua+'cc',C.good+'cc'],borderRadius:4,borderSkipped:false}]},options:{...base,scales:{x:base.scales.x,y:{...base.scales.y,title:{display:true,text:'# SKUs Pre-positioned',font:{size:11},color:C.muted}}}}});
+
+// Calendar lift index
+const calWks=Array.from({length:52},(_,i)=>`W${i+1}`);
+const calData=calWks.map((_,i)=>{
+  const w=i+1;
+  if(w===24||w===25)return 1.42; // Summer event
+  if(w===47||w===48)return 1.68; // Holiday peak
+  if(w===49||w===50)return 1.82; // Black Friday / Cyber
+  if(w===1||w===52)return 1.22;  // New Year
+  if(w===17||w===18)return 1.28; // Spring event
+  return 1.0+Math.sin(w/8)*0.04+Math.random()*0.03;
+});
+new Chart(document.getElementById('calChart'),{type:'bar',data:{labels:calWks,datasets:[{data:calData,backgroundColor:calData.map(v=>v>1.6?C.crit+'cc':v>1.3?C.warn+'cc':v>1.1?C.blue+'cc':C.grid),borderRadius:1,borderSkipped:false}]},options:{...base,scales:{x:{...base.scales.x,ticks:{maxTicksLimit:13,color:C.muted,font:{size:10}}},y:{...base.scales.y,title:{display:true,text:'Demand Index',font:{size:11},color:C.muted}}}}});
+
+// Lift by event type
+new Chart(document.getElementById('liftByEvent'),{type:'bar',data:{labels:['Black Friday','Holiday Peak','Summer Event','Spring Event','Back-to-School'],datasets:[{data:[48.2,36.8,28.4,19.2,14.8],backgroundColor:[C.crit+'cc',C.orange+'cc',C.blue+'cc',C.aqua+'cc',C.yellow+'cc'],borderRadius:4,borderSkipped:false}]},options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,title:{display:true,text:'Median Lift % vs. Baseline',font:{size:11},color:C.muted}},y:base.scales.y}}});
+
+// Category sensitivity
+new Chart(document.getElementById('catSens'),{type:'bar',data:{labels:['Beverages','Snacks','Dairy','Frozen','Fresh','Grocery','Deli'],datasets:[{data:[42.1,38.4,31.2,28.8,22.4,18.6,14.2],backgroundColor:C.blue+'cc',borderRadius:3,borderSkipped:false}]},options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,title:{display:true,text:'Average Event Lift %',font:{size:11},color:C.muted}},y:base.scales.y}}});
+
+// Lift accuracy scatter
+new Chart(document.getElementById('liftAccChart'),{type:'scatter',data:{datasets:[
+  {label:'Event (>20% lift)',data:[{x:18.4,y:19.2},{x:24.1,y:22.8},{x:36.8,y:38.4},{x:48.2,y:44.1}],backgroundColor:C.orange+'cc',pointRadius:8},
+  {label:'Event (<20% lift)',data:[{x:9.2,y:8.8},{x:14.2,y:15.1},{x:12.8,y:11.4},{x:19.1,y:18.8}],backgroundColor:C.blue+'cc',pointRadius:8},
+]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{font:{size:11},color:C.text,boxWidth:8,padding:8}},annotation:{annotations:{diagonal:{type:'line',xMin:0,xMax:55,yMin:0,yMax:55,borderColor:C.muted,borderWidth:1,borderDash:[4,3],label:{display:true,content:'Perfect forecast',font:{size:10},color:C.muted,position:'end'}}}}},scales:{x:{...base.scales.x,title:{display:true,text:'Predicted Lift %',font:{size:11},color:C.muted}},y:{...base.scales.y,title:{display:true,text:'Actual Lift %',font:{size:11},color:C.muted}}}}});
+
+// Wave chart
+new Chart(document.getElementById('waveChart'),{type:'line',data:{labels:['Wk −2','Wk −1','Peak Wk','Wk +1','Wk +2','Wk +3'],datasets:[
+  {label:'Predicted',data:[1.09,1.14,1.184,1.06,0.98,1.01],borderColor:C.blue,backgroundColor:C.blue+'22',fill:true,borderWidth:2,pointRadius:4,tension:.3},
+  {label:'Actual',   data:[1.11,1.16,1.212,1.04,0.97,1.00],borderColor:C.orange,borderWidth:2,pointRadius:4,tension:.3,borderDash:[4,3]},
+]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{font:{size:11},color:C.text,boxWidth:8,padding:8}}},scales:{x:base.scales.x,y:{...base.scales.y,title:{display:true,text:'Demand Index',font:{size:11},color:C.muted}}}}});
+
+// Lift attribution donut
+new Chart(document.getElementById('liftAttr'),{type:'doughnut',data:{labels:['Price Reduction','Feature/Display','Category Visibility','Baseline Shift'],datasets:[{data:[42,31,18,9],backgroundColor:[C.blue,C.orange,C.aqua,C.yellow],borderWidth:2,borderColor:'#fcfcfb'}]},options:{responsive:true,maintainAspectRatio:true,cutout:'55%',plugins:{legend:{position:'right',labels:{font:{size:11},color:C.text,boxWidth:10,padding:8}},tooltip:base.plugins.tooltip}}});
+
+// Risk table
+const riskRows=[
+  {sku:'SKU-29871',desc:'Sparkling Water 24pk',tier:'🔴 Critical',bear:'-18.2%',base:'-8.4%',lt:'8 wks',action:'Emergency commit required'},
+  {sku:'SKU-44302',desc:'Ground Beef 3lb',tier:'🔴 Critical',bear:'-14.6%',base:'-6.2%',lt:'6 wks',action:'Expedite supplier capacity'},
+  {sku:'SKU-12891',desc:'Organic Tortilla Chips',tier:'🟡 Warning',bear:'-10.2%',base:'-3.8%',lt:'5 wks',action:'Cross-functional review'},
+  {sku:'SKU-51204',desc:'Baby Formula Stage 2',tier:'🟡 Warning',bear:'-8.9%',base:'-2.4%',lt:'4 wks',action:'Monitor lead time'},
+  {sku:'SKU-18293',desc:'Oat Milk Original',tier:'🟡 Warning',bear:'-6.4%',base:'-1.8%',lt:'3 wks',action:'Pre-position base case'},
+  {sku:'SKU-67831',desc:'Canned Diced Tomatoes',tier:'🟢 Monitor',bear:'-3.2%',base:'+0.4%',lt:'2 wks',action:'No action needed'},
+  {sku:'SKU-88312',desc:'Greek Yogurt Plain',tier:'🟢 Monitor',bear:'-2.1%',base:'+1.2%',lt:'2 wks',action:'Watch pre-event velocity'},
+  {sku:'SKU-92104',desc:'Frozen Breakfast Sandwich',tier:'🟢 Monitor',bear:'-1.8%',base:'+0.8%',lt:'3 wks',action:'Monitor weekly'},
+];
+const rtb=document.getElementById('riskTable');
+riskRows.forEach(r=>{
+  const tierColor=r.tier.includes('🔴')?C.crit:r.tier.includes('🟡')?C.warn:C.good;
+  rtb.innerHTML+=`<tr><td style="font-family:monospace;font-size:11px">${r.sku}</td><td>${r.desc}</td><td style="font-weight:600;color:${tierColor}">${r.tier}</td><td style="color:var(--crit)">${r.bear}</td><td style="font-weight:600">${r.base}</td><td>${r.lt}</td><td style="font-size:11px">${r.action}</td></tr>`;
+});
+
+// Tab switching
+document.getElementById('tabNav').addEventListener('click',e=>{
+  const btn=e.target.closest('.tab-btn');if(!btn)return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+});
+</script>
+</body>
+</html>
