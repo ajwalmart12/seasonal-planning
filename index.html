@@ -11,9 +11,6 @@
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;background:var(--s0);color:var(--ink);}
 .demo-banner{background:#fffbeb;border-bottom:2px solid #f59e0b;padding:8px 20px;font-size:12px;font-weight:600;color:#92400e;display:flex;align-items:center;}
 .demo-banner .rs{margin-left:auto;font-weight:400;font-size:11px;color:#78350f;}
-.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;}
-.brand{font-size:15px;font-weight:700;} .sub{font-size:11px;color:var(--sec);}
-.links{margin-left:auto;display:flex;gap:12px;} .links a{color:var(--ind);font-size:12px;font-weight:600;text-decoration:none;} .links a:hover{text-decoration:underline;}
 .tab-nav{background:var(--s1);border-bottom:1px solid var(--grid);padding:0 20px;display:flex;gap:2px;}
 .tab-btn{padding:10px 16px;border:none;background:none;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
 .tab-btn:hover{color:var(--sec);} .tab-btn.active{color:var(--ind);border-bottom-color:var(--ind);font-weight:600;}
@@ -44,19 +41,75 @@ td{padding:7px 10px;border-bottom:1px solid var(--grid);color:var(--sec);}
 tr:last-child td{border-bottom:none;} tr:hover td{background:#f4f3f0;}
 footer{margin-top:32px;padding:16px 20px;border-top:1px solid var(--grid);font-size:11px;color:var(--muted);display:flex;gap:16px;}
 footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:underline;}
+
+/* ── Shared nav ─── */
+.snav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0;padding:0 20px;display:flex;align-items:center;gap:6px;height:48px;}
+.snav-brand{font-size:13px;font-weight:800;color:#0f172a;text-decoration:none;margin-right:16px;white-space:nowrap;}
+.snav-brand span{color:#6366f1;}
+.snav-items{display:flex;align-items:center;gap:2px;flex:1;}
+.snav-link{padding:5px 10px;border-radius:5px;font-size:12px;font-weight:500;color:#475569;text-decoration:none;white-space:nowrap;transition:background .12s,color .12s;}
+.snav-link:hover{background:rgba(99,102,241,.07);color:#0f172a;}
+.sndrop{position:relative;}
+.sndrop-toggle{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:500;color:#475569;cursor:pointer;user-select:none;white-space:nowrap;transition:background .12s,color .12s;}
+.sndrop-toggle:hover{background:rgba(99,102,241,.07);color:#0f172a;}
+.sndrop-toggle svg{width:9px;height:9px;transition:transform .18s;}
+.sndrop:hover .sndrop-toggle svg{transform:rotate(180deg);}
+.sndrop-menu{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:5px;min-width:210px;box-shadow:0 12px 40px rgba(0,0,0,.14);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-4px);transition:opacity .15s,transform .15s,visibility .15s;}
+.sndrop:hover .sndrop-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);}
+.sndrop-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:11px;font-weight:500;color:#475569;text-decoration:none;transition:background .1s,color .1s;}
+.sndrop-item:hover{background:rgba(99,102,241,.09);color:#0f172a;}
+.sndrop-icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.sndrop-lbl{font-weight:600;color:#0f172a;font-size:11px;}
+.sndrop-sub{font-size:10px;color:#94a3b8;margin-top:1px;}
+.sndrop-div{height:1px;background:#e2e8f0;margin:4px 2px;}
+.snav-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.snav-badge{padding:4px 12px;border-radius:5px;font-size:11px;font-weight:600;border:1px solid #e2e8f0;color:#475569;text-decoration:none;transition:border-color .12s,color .12s,background .12s;}
+.snav-badge:hover{background:#eef2ff;border-color:#6366f1;color:#6366f1;}
 </style>
 </head>
 <body>
+<!-- ── Shared portfolio nav ── -->
+<nav class="snav">
+  <a href="https://ajwalmart12.github.io" class="snav-brand">AJ<span> · Portfolio</span></a>
+  <div class="snav-items">
+    <div class="sndrop">
+      <div class="sndrop-toggle">Dashboards<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3.5l3 3 3-3"/></svg></div>
+      <div class="sndrop-menu">
+        <a class="sndrop-item" href="https://ajwalmart12.github.io/forecast-governance/">
+          <div class="sndrop-icon" style="background:rgba(99,102,241,.12)">📊</div>
+          <div><div class="sndrop-lbl">Forecast Governance</div><div class="sndrop-sub">Anomaly triage · Bias correction</div></div>
+        </a>
+        <a class="sndrop-item" href="https://ajwalmart12.github.io/seasonal-planning/">
+          <div class="sndrop-icon" style="background:rgba(245,158,11,.12)">📅</div>
+          <div><div class="sndrop-lbl">Scenario Planning</div><div class="sndrop-sub">Demand scenarios · Commitment staging</div></div>
+        </a>
+        <a class="sndrop-item" href="https://ajwalmart12.github.io/pricing-demand-response/">
+          <div class="sndrop-icon" style="background:rgba(99,102,241,.12)">💹</div>
+          <div><div class="sndrop-lbl">Pricing & Demand Response</div><div class="sndrop-sub">Elasticity · Lift analysis</div></div>
+        </a>
+        <div class="sndrop-div"></div>
+        <a class="sndrop-item" href="https://ajwalmart12.github.io/forecast-accuracy/">
+          <div class="sndrop-icon" style="background:rgba(16,185,129,.12)">🎯</div>
+          <div><div class="sndrop-lbl">Forecast Accuracy</div><div class="sndrop-sub">Bias · sMAPE · Planner adjustments</div></div>
+        </a>
+        <a class="sndrop-item" href="https://ajwalmart12.github.io/replenishment-risk/">
+          <div class="sndrop-icon" style="background:rgba(244,63,94,.12)">⚡</div>
+          <div><div class="sndrop-lbl">Safety Stock Monitor</div><div class="sndrop-sub">Replenishment risk · Violations</div></div>
+        </a>
+      </div>
+    </div>
+    <a class="snav-link" href="https://ajwalmart12.github.io#projects">Projects</a>
+    <a class="snav-link" href="https://ajwalmart12.github.io#skills">Skills</a>
+  </div>
+  <div class="snav-right">
+    <a class="snav-badge" href="https://linkedin.com/in/asthajain12" target="_blank">LinkedIn ↗</a>
+    <a class="snav-badge" href="https://github.com/ajwalmart12" target="_blank">GitHub ↗</a>
+  </div>
+</nav>
 <div style="background:#f1f5f9;border-bottom:1px solid #e2e8f0;padding:8px 32px;font-size:11px;color:#475569;text-align:center;">
   <strong>Independent portfolio case study.</strong> All data, scenarios, product identifiers and results shown here are synthetic. This project does not reproduce any employer's data, systems or confidential business processes.
 </div>
 <div class="demo-banner"><span>⚠ DEMO DATA — Illustrative numbers only.</span><span class="rs">Production: nine-figure forecast-error reduction opportunity identified</span></div>
-<header class="topbar">
-  <div><div class="brand">Scenario Planning &amp; Inventory Commitment</div><div class="sub">Evaluating uncertain demand scenarios and staging inventory commitments as signal confidence improves.</div></div>
-  <div class="links"><a href="https://ajwalmart12.github.io">📄 Whitepaper →</a></div>
-  <a href="https://linkedin.com/in/asthajain12" target="_blank" style="color:#6366f1;font-size:12px;font-weight:600;text-decoration:none;margin-left:8px;">LinkedIn ↗</a>
-  <a href="https://github.com/ajwalmart12" target="_blank" style="color:#6366f1;font-size:12px;font-weight:600;text-decoration:none;margin-left:8px;">GitHub ↗</a>
-</header>
 <nav class="tab-nav" id="tabNav">
   <button class="tab-btn active" data-tab="scenarios">Scenario Dashboard</button>
   <button class="tab-btn" data-tab="calendar">Planning Calendar</button>
