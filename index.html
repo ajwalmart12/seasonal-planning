@@ -6,17 +6,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
-:root{--s0:#f9f9f7;--s1:#fcfcfb;--ink:#0b0b0b;--sec:#52514e;--muted:#898781;--grid:#e1e0d9;--border:rgba(11,11,11,.10);--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--yellow:#eda100;--magenta:#e87ba4;--good:#0ca30c;--warn:#fab219;--crit:#d03b3b;}
+:root{--s0:#f9f9f7;--s1:#fcfcfb;--ink:#0b0b0b;--sec:#52514e;--muted:#898781;--grid:#e1e0d9;--border:rgba(11,11,11,.10);--blue:#6366f1;--orange:#eb6834;--aqua:#1baf7a;--yellow:#eda100;--magenta:#e87ba4;--good:#0ca30c;--warn:#fab219;--crit:#d03b3b;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;background:var(--s0);color:var(--ink);}
 .demo-banner{background:#fffbeb;border-bottom:2px solid #f59e0b;padding:8px 20px;font-size:12px;font-weight:600;color:#92400e;display:flex;align-items:center;}
 .demo-banner .rs{margin-left:auto;font-weight:400;font-size:11px;color:#78350f;}
 .topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;}
 .brand{font-size:15px;font-weight:700;} .sub{font-size:11px;color:var(--sec);}
-.links{margin-left:auto;display:flex;gap:12px;} .links a{color:var(--blue);font-size:12px;font-weight:600;text-decoration:none;} .links a:hover{text-decoration:underline;}
+.links{margin-left:auto;display:flex;gap:12px;} .links a{color:var(--ind);font-size:12px;font-weight:600;text-decoration:none;} .links a:hover{text-decoration:underline;}
 .tab-nav{background:var(--s1);border-bottom:1px solid var(--grid);padding:0 20px;display:flex;gap:2px;}
 .tab-btn{padding:10px 16px;border:none;background:none;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;}
-.tab-btn:hover{color:var(--sec);} .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
+.tab-btn:hover{color:var(--sec);} .tab-btn.active{color:var(--ind);border-bottom-color:var(--ind);font-weight:600;}
 main{padding:20px;max-width:1300px;margin:0 auto;}
 .tab-panel{display:none;} .tab-panel.active{display:block;}
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;}
@@ -24,7 +24,7 @@ main{padding:20px;max-width:1300px;margin:0 auto;}
 .kpi .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
 .kpi .val{font-size:22px;font-weight:700;margin:4px 0 2px;}
 .kpi .delta{font-size:11px;font-weight:600;}
-.kpi.bl{border-left:3px solid var(--blue);} .kpi.or{border-left:3px solid var(--orange);} .kpi.gd{border-left:3px solid var(--good);}
+.kpi.bl{border-left:3px solid var(--ind);} .kpi.or{border-left:3px solid var(--orange);} .kpi.gd{border-left:3px solid var(--good);}
 .chart-grid{display:grid;gap:16px;} .cols2{grid-template-columns:1fr 1fr;}
 .card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:16px;}
 .card .ttl{font-size:12px;font-weight:700;margin-bottom:3px;} .card .sub2{font-size:11px;color:var(--muted);margin-bottom:12px;}
@@ -36,14 +36,14 @@ main{padding:20px;max-width:1300px;margin:0 auto;}
 .scenario-card .sc-units{font-size:11px;color:var(--muted);}
 .scenario-card .sc-prob{font-size:12px;font-weight:600;margin-top:8px;padding:4px 10px;border-radius:999px;display:inline-block;}
 .bear{border-top:3px solid var(--crit);} .bear .sc-val{color:var(--crit);}
-.base{border-top:3px solid var(--blue);} .base .sc-val{color:var(--blue);}
+.base{border-top:3px solid var(--ind);} .base .sc-val{color:var(--ind);}
 .bull{border-top:3px solid var(--good);} .bull .sc-val{color:var(--good);}
 table{width:100%;border-collapse:collapse;font-size:12px;}
 th{padding:7px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--grid);}
 td{padding:7px 10px;border-bottom:1px solid var(--grid);color:var(--sec);}
 tr:last-child td{border-bottom:none;} tr:hover td{background:#f4f3f0;}
 footer{margin-top:32px;padding:16px 20px;border-top:1px solid var(--grid);font-size:11px;color:var(--muted);display:flex;gap:16px;}
-footer a{color:var(--blue);text-decoration:none;} footer a:hover{text-decoration:underline;}
+footer a{color:var(--ind);text-decoration:none;} footer a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -81,7 +81,7 @@ footer a{color:var(--blue);text-decoration:none;} footer a:hover{text-decoration
       <div class="sc-label">📊 Base Case</div>
       <div class="sc-val">+18.4%</div>
       <div class="sc-units">Expected event lift over baseline</div>
-      <div class="sc-prob" style="background:#dbeafe;color:var(--blue)">Probability: 61%</div>
+      <div class="sc-prob" style="background:#dbeafe;color:var(--ind)">Probability: 61%</div>
     </div>
     <div class="scenario-card bull">
       <div class="sc-label">🐂 Bull Case</div>
@@ -171,7 +171,7 @@ footer a{color:var(--blue);text-decoration:none;} footer a:hover{text-decoration
   <span style="margin-left:auto">Astha Jain · <a href="https://linkedin.com/in/ajwalmart12" target="_blank">LinkedIn</a></span>
 </footer>
 <script>
-const C={blue:'#2a78d6',orange:'#eb6834',aqua:'#1baf7a',yellow:'#eda100',magenta:'#e87ba4',good:'#0ca30c',warn:'#fab219',crit:'#d03b3b',grid:'#e1e0d9',muted:'#898781',text:'#52514e'};
+const C={blue:'#6366f1',orange:'#eb6834',aqua:'#1baf7a',yellow:'#eda100',magenta:'#e87ba4',good:'#0ca30c',warn:'#fab219',crit:'#d03b3b',grid:'#e1e0d9',muted:'#898781',text:'#52514e'};
 const base={responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:C.grid,borderWidth:1,titleColor:'#0b0b0b',bodyColor:C.text,padding:10,boxPadding:4}},scales:{x:{grid:{color:C.grid,lineWidth:.5},ticks:{color:C.muted,font:{size:11}}},y:{grid:{color:C.grid,lineWidth:.5},ticks:{color:C.muted,font:{size:11}},border:{dash:[3,3]}}}};
 
 // Scenario probability evolution
